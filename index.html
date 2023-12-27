@@ -19,6 +19,25 @@
         color: #fff;
     }
 
+    /* Style the countdown timer container */
+    #countdown-container {
+        text-align: center;
+        font-size: 24px; /* Increase the font size */
+        display: flex;
+        flex-direction: column; /* Vertical alignment */
+        align-items: center; /* Center-align elements horizontally */
+    }
+
+    /* Style the countdown timer elements */
+    .countdown-element {
+        margin: 10px 0; /* Add spacing between elements */
+    }
+
+    /* Style the seconds and milliseconds */
+    #seconds, #milliseconds {
+        font-size: 24px; /* Increase the font size */
+    }
+
     .inner-text {
         color: #303c6c;
         font-size: 40px;
@@ -84,23 +103,23 @@
             }
 
     .cake {
-        width: 350px; /* Slightly larger cake */
+        width: 350px;
         height: 233px;
         background-image: url('https://static.vecteezy.com/system/resources/previews/021/554/044/original/birthday-cake-isolated-illustration-png.png');
         background-size: contain;
         background-repeat: no-repeat;
         position: absolute;
-        left: 5%; /* Positioning cake to the left */
+        left: 5%; 
         top: 50%;
         transform: translateY(-50%);
         display: flex;
         flex-direction: column;
-        justify-content: space-evenly; /* For tiered candle placement */
+        justify-content: space-evenly;
         align-items: center;
         padding-top: 20px;
     }
     .candle {
-        width: 8px; /* Slightly smaller candles */
+        width: 8px;
         height: 50px;
         background: #ff69b4;
         margin: 0 1px;
@@ -188,13 +207,35 @@
                 <span class="typewriter-text">To: Nikki</span>
             </div>
             <div class="flip-card-back">
-                <span class="upper-text">Can't wait to see you in:</span>
+                <span class="upper-text">I can't wait to see you in:</span>
+                <!-- Countdown timer container -->
+                <div id="countdown-container">
+                    <div class="countdown-element">
+                        <div id="weeks">00</div>
+                        <div>WEEKS</div>
+                    </div>
+                    <div class="countdown-element">
+                        <div id="days">00</div>
+                        <div>DAYS</div>
+                    </div>
+                    <div class="countdown-element">
+                        <div id="hours">00</div>
+                        <div>HOURS</div>
+                    </div>
+                    <div class="countdown-element">
+                        <div id="minutes">00</div>
+                        <div>MINUTES</div>
+                    </div>
+                    <div class="countdown-element">
+                        <span id="seconds">00</span>.<span id="milliseconds">000</span>
+                        <div>SECONDS</div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <div class="cake">
-        <!-- Candles will be added here by JavaScript -->
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.3.0/dist/confetti.browser.js"></script>
@@ -238,11 +279,9 @@
             // Card flip
             const flipCardInner = document.querySelector('.flip-card-inner');
             flipCardInner.style.transform = 'rotateY(180deg)';
-            // flipCardInner.style.border = '3px solid gold'; // Example: change border
             flipCardInner.style.boxShadow = '0 0 20px gold'; // Example: change box shadow
 
             const card = document.querySelector('.card');
-            // card.style.border = '3px solid gold'; // Example: change border
             card.style.boxShadow = '0 0 20px gold'; // Example: change box shadow
 
 
@@ -269,6 +308,44 @@
             balloon.style.setProperty('--randY', Math.random());
             document.body.appendChild(balloon);
         }
+    </script>
+
+    <script>
+        // Function to update the countdown timer
+        function updateCountdown() {
+            const targetDate = new Date("January 8, 2024 21:00:00 GMT-0800"); // Target date and time in PST
+            const currentDate = new Date();
+
+            // Calculate the time difference in milliseconds
+            const timeDifference = targetDate - currentDate;
+
+            if (timeDifference > 0) {
+                // Calculate weeks, days, hours, minutes, seconds, and milliseconds
+                const weeks = Math.floor(timeDifference / (1000 * 60 * 60 * 24 * 7));
+                const days = Math.floor((timeDifference % (1000 * 60 * 60 * 24 * 7)) / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+                const milliseconds = timeDifference % 1000;
+
+                // Update the countdown timer elements
+                document.getElementById("weeks").textContent = weeks.toString().padStart(2, "0");
+                document.getElementById("days").textContent = days.toString().padStart(2, "0");
+                document.getElementById("hours").textContent = hours.toString().padStart(2, "0");
+                document.getElementById("minutes").textContent = minutes.toString().padStart(2, "0");
+                document.getElementById("seconds").textContent = seconds.toString().padStart(2, "0");
+                document.getElementById("milliseconds").textContent = milliseconds.toString().padStart(3, "0");
+            } else {
+                // Display a message when the countdown is over
+                document.getElementById("countdown-container").textContent = "Countdown is over!";
+            }
+        }
+
+        // Update the countdown every 1 millisecond
+        setInterval(updateCountdown, 1);
+
+        // Initial update
+        updateCountdown();
     </script>
 
 </body>
