@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday!</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rajdhani:400,700&display=swap">
+<style>
+    body {
+        font-family: 'Rajdhani', sans-serif;
+        background-color: #D1FEFF;
+        overflow: hidden;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        color: #fff;
+    }
+
+    .inner-text {
+        color: #303c6c;
+        font-size: 40px;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .upper-text {
+        color: #303c6c;
+        font-size: 25px;
+        padding: 10px;
+        text-align: center;
+        position: absolute; /* Position it at the top */
+        top: 60px; /* Adjust the top position */
+    }
+
+    .card, .flip-card {
+                width: 500px;
+                height: 600px;
+                perspective: 1500px;
+                cursor: pointer;
+                position: absolute;
+                top: 50%;
+                left: 45%;
+                transform: translate(-50%, -50%);
+            }
+            .card-inner, .flip-card-inner {
+                width: 100%;
+                height: 100%;
+                transition: transform 1s;
+                transform-style: preserve-3d;
+                position: relative;
+                transform-origin: center right;
+            }
+            .card-front, .card-back, .flip-card-front, .flip-card-back {
+                width: 100%;
+                height: 100%;
+                backface-visibility: hidden;
+                position: absolute;
+                top: 0;
+                left: 0;
+                border-radius: 10px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background: #f9e69f;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+                color: #303c6c;
+                font-size: 18px;
+                padding: 20px;
+                box-sizing: border-box;
+            }
+            .card-front {
+                /* Front card design */
+            }
+            .card-back {
+                transform: rotateY(180deg);
+                background: #555;
+            }
+            .flip-card-back {
+                transform: rotateY(180deg);
+                background: #f9e69f; /* Different background color for distinction */
+            }
+
+    .cake {
+        width: 350px; /* Slightly larger cake */
+        height: 233px;
+        background-image: url('https://static.vecteezy.com/system/resources/previews/021/554/044/original/birthday-cake-isolated-illustration-png.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        position: absolute;
+        left: 5%; /* Positioning cake to the left */
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly; /* For tiered candle placement */
+        align-items: center;
+        padding-top: 20px;
+    }
+    .candle {
+        width: 8px; /* Slightly smaller candles */
+        height: 50px;
+        background: #ff69b4;
+        margin: 0 1px;
+        border-radius: 10px;
+        position: relative;
+    }
+    .flame {
+        width: 16px; /* Larger flame */
+        height: 24px;
+        background: linear-gradient(#ffff80, #ff6060);
+        border-radius: 50%;
+        position: absolute;
+        top: -20px;
+        left: 50%;
+        transform: translateX(-50%);
+        box-shadow: 0 0 15px 4px #ff6060;
+        animation: flicker 1s infinite;
+    }
+    .smoke {
+        display: none;
+        position: absolute;
+        top: -50px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 24px;
+        height: 24px;
+        background: rgba(200, 200, 200, 0.5);
+        border-radius: 50%;
+        animation: riseSmoke 5s ease-out infinite;
+    }
+    .typewriter-text {
+        overflow: hidden; /* Hide overflow to create the typing effect */
+        white-space: nowrap; /* Prevent line breaks */
+        margin: 0 auto; /* Center align text */
+        text-align: center;
+        font-size: 25px;
+        letter-spacing: 2px; /* Adjust letter spacing for typewriter effect */
+        animation: typing 2s steps(20) forwards; /* Animation for typing effect */
+    }
+    @keyframes typing {
+        0% {
+            width: 0;
+        }
+        100% {
+            width: 100%;
+        }
+    }
+    @keyframes flicker {
+        0%, 100% { opacity: 1; }
+        50% { opacity: .4; }
+    }
+    @keyframes riseSmoke {
+        0% { transform: translateY(0); opacity: 1; }
+        100% { transform: translateY(-100px); opacity: 0; }
+    }
+    .balloon {
+        width: 100px;
+        height: 130px;
+        background-image: url('https://static.vecteezy.com/system/resources/previews/008/477/305/non_2x/color-glossy-balloons-background-illustration-free-png.png');
+        background-size: cover;
+        position: absolute;
+        bottom: -150px;
+        animation: floatUp 10s ease-in forwards;
+        z-index: 0;
+    }
+    @keyframes floatUp {
+        0% { transform: translate(0, 0); }
+        100% { transform: translate(calc(-50vw + 100vmax * var(--randX)), calc(-100vh - 150px * var(--randY))); }
+    }
+</style>
+</head>
+<body>
+
+    <div class="card">
+        <div class="card-inner">
+            <div class="card-front">
+                <span class="inner-text">Happy Birthday!</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="flip-card" onclick="startCelebration()">
+        <div class="flip-card-inner">
+            <div class="flip-card-front">
+                <span class="typewriter-text">To: Nikki</span>
+            </div>
+            <div class="flip-card-back">
+                <span class="upper-text">Can't wait to see you in:</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="cake">
+        <!-- Candles will be added here by JavaScript -->
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.3.0/dist/confetti.browser.js"></script>
+    <script>
+        // Function to create smoke element
+        function createSmoke(candle) {
+            var smoke = document.createElement('div');
+            smoke.className = 'smoke';
+            candle.appendChild(smoke);
+            smoke.style.display = 'block';
+        }
+
+        // Function to create candles
+        function createCandles() {
+            const cake = document.querySelector('.cake');
+            for (let i = 0; i < 19; i++) {
+                let candle = document.createElement('div');
+                candle.className = 'candle';
+                candle.style.position = 'absolute';
+                candle.style.bottom = `${115 + (i % 2) * 50}px`; // Tiered placement
+                candle.style.left = `${20+(i % 19) * 12}px`; // Even distribution
+                let flame = document.createElement('div');
+                flame.className = 'flame';
+                flame.style.animationDelay = `${i * 0.1}s`; // Stagger the animation
+                candle.appendChild(flame);
+                cake.appendChild(candle);
+
+                // Add blowout event
+                flame.addEventListener('mouseover', function() {
+                    this.style.display = 'none';
+                    createSmoke(candle);
+                });
+            }
+        }
+
+        // Call createCandles when the script loads
+        createCandles();
+
+        // Start the celebration
+        function startCelebration() {
+            // Card flip
+            const flipCardInner = document.querySelector('.flip-card-inner');
+            flipCardInner.style.transform = 'rotateY(180deg)';
+            // flipCardInner.style.border = '3px solid gold'; // Example: change border
+            flipCardInner.style.boxShadow = '0 0 20px gold'; // Example: change box shadow
+
+            const card = document.querySelector('.card');
+            // card.style.border = '3px solid gold'; // Example: change border
+            card.style.boxShadow = '0 0 20px gold'; // Example: change box shadow
+
+
+            // Confetti
+            confetti({
+                particleCount: 150,
+                spread: 180,
+                startVelocity: 30,
+                scalar: 1.5 // Make confetti bigger
+            });
+
+            // Balloons
+            for (let i = 0; i < 20; i++) {
+                createBalloon();
+            }
+        }
+
+        // Create Balloons
+        function createBalloon() {
+            const balloon = document.createElement('div');
+            balloon.classList.add('balloon');
+            balloon.style.left = `${Math.random() * 100}vw`;
+            balloon.style.setProperty('--randX', Math.random());
+            balloon.style.setProperty('--randY', Math.random());
+            document.body.appendChild(balloon);
+        }
+    </script>
+
+</body>
+</html>
